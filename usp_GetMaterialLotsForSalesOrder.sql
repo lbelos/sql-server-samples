@@ -286,8 +286,8 @@ BEGIN
     WITH BOMExplosion AS (
         -- Anchor: Top level
         SELECT
-            @SKU AS TopLevelSKU,
-            @SKU AS CurrentSKU,
+            CAST(@SKU AS VARCHAR(100)) AS TopLevelSKU,
+            CAST(@SKU AS VARCHAR(100)) AS CurrentSKU,
             CAST(1.0 AS DECIMAL(18,6)) AS Quantity,
             0 AS Level,
             CAST(@SKU AS VARCHAR(1000)) AS Path
@@ -296,8 +296,8 @@ BEGIN
 
         -- Recursive: Explode components
         SELECT
-            be.TopLevelSKU,
-            b.Style AS CurrentSKU,
+            CAST(be.TopLevelSKU AS VARCHAR(100)) AS TopLevelSKU,
+            CAST(b.Style AS VARCHAR(100)) AS CurrentSKU,
             CAST(be.Quantity * ISNULL(b.Quantity, 1) AS DECIMAL(18,6)) AS Quantity,
             be.Level + 1 AS Level,
             CAST(be.Path + ' -> ' + b.Style AS VARCHAR(1000)) AS Path
